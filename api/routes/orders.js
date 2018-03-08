@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
         quantity: req.body.quantity
     };
 
-    res.status(201).json({ // 201 == everything was successful, resource created
+    res.status(201).json({
         message: 'Orders was created',
         order: order
     });
