@@ -12,8 +12,9 @@ router.get('/', (req, res, next) => {
   Order
     .find()
     .select('product quantity _id') // Choose which fields to fetch
-
+    .populate('product', 'name')
     .exec()
+
     .then(docs => {
       res.status(200).json({
         count: docs.length,
@@ -28,9 +29,9 @@ router.get('/', (req, res, next) => {
             }
           }
         }),
-
       });
     })
+
     .catch(err => {
       console.log(err);
       res.status(500).json({
@@ -95,6 +96,7 @@ router.get('/:orderId', (req, res, next) => {
 
   Order.findById(req.params.orderId)
     .select('product quantity _id')
+    .populate('product')
     .exec()
     .then(order => {
 
@@ -108,6 +110,7 @@ router.get('/:orderId', (req, res, next) => {
         order: order
       });
     })
+
     .catch(err => {
       res.status(500).json({
         error: err
@@ -127,11 +130,13 @@ router.delete('/:orderId', (req, res, next) => {
         message: 'Order deleted'
       });
     })
+
     .catch(err => {
       res.status(500).json({
         error: err
       })
     })
+
 });
 
 

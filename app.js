@@ -11,7 +11,7 @@ const orderRoutes = require('./api/routes/orders');
 mongoose.connect(
   'mongodb://node-admin:' +
   process.env.MONGO_ATLAS_PW +
-  '@node-rest-mma-shard-00-00-1ejxn.mongodb.net:27017,node-rest-mma-shard-00-01-1ejxn.mongodb.net:27017,node-rest-mma-shard-00-02-1ejxn.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-mma-shard-0&authSource=admin'
+  process.env.DB_PATH
 );
 
 mongoose.Promise = global.Promise; // Use the default Node.js Promise
