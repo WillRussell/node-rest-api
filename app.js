@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 //Routes which should handle requests 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 
 mongoose.connect(
   'mongodb://node-admin:' +
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 /*Routes*/
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/users', userRoutes);
 
 
 
