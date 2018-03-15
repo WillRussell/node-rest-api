@@ -52,6 +52,48 @@ router.post('/signup', (req, res, next) => {
 });
 
 
+router.post('/login', (req, res, next) => {
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+
+      // Check to see if email matches w/an existing user
+      if (user.length < 1) {
+        return res.status(401).json({ // 401: Unauthorized
+          message: "Auth Failed"
+        });
+      }
+
+      // Check if the password received in plain text matches the hashed password in the db
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+
+        if (err) {
+          return res.status(401).json({
+            message: "Auth Failed"
+          });
+        }
+
+        if (result) {
+          return res.status(200).json({
+            message: 'Auth successful'
+          })
+        }
+
+        return res.status(401).json({
+          message: "Auth Failed"
+        });
+      })
+
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({
+        error: err
+      });
+    });
+});
+
+
 router.delete('/:userId', (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()
@@ -59,7 +101,6 @@ router.delete('/:userId', (req, res, next) => {
       res.status(200).json({
         message: 'User deleted'
       });
-
     })
     .catch(err => {
       console.log(err);
